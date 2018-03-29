@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the AddGroupPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -15,11 +10,18 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AddGroupPage {
 
+  data = { groupName:'' };
+  ref = firebase.database().ref('chatgroups/');
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AddGroupPage');
+  // Save new group to db
+  addGroup() {
+    let newData = this.ref.push();
+    newData.set({
+      groupName: this.data.groupName
+    });
+    this.navCtrl.pop();
   }
-
 }

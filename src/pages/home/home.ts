@@ -70,15 +70,6 @@ export class HomePage {
 
   // Log out from current group
   logout() {
-    let exitData = firebase.database().ref('chatgroups/' + this.groupKey+ '/chats').push();
-
-    exitData.set({
-      type: 'exit',
-      user: this.screenName,
-      message: this.screenName + 'has logged out',
-      sendDate: Date()
-    });
-
     this.loggedOut  = true;
 
     this.navCtrl.setRoot(GroupPage, {

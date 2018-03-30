@@ -1,24 +1,33 @@
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>Login</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
 <ion-content padding>
 
-  <!-- Form to add screen name -->
+  <ion-card>
+    <ion-card-header>MessageMe</ion-card-header>
+  </ion-card>
+
+  <!-- Form for screen name and password -->
   <form (ngSubmit)="enterScreenName()">
     <ion-list>
       <ion-item>
-        <ion-label floating>Enter your screen name</ion-label>
-        <ion-input type="text" [(ngModel)]="data.screenName" name="screenName" required=""></ion-input>
+        <ion-label floating>Screen Name</ion-label>
+        <ion-input type="text"
+                   [(ngModel)]="data.screenName"
+                   name="screenName"
+                   required=""
+                   maxlength="20"
+                   minlength="1">
+        </ion-input>
       </ion-item>
 
       <ion-item>
-        <button ion-button full round color="secondary" type="submit">Log in</button>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password"
+                   name="password"
+                   required="">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <button ion-button large full round color="secondary" type="submit">Log in</button>
       </ion-item>
     </ion-list>
   </form>

@@ -69,23 +69,12 @@ export class HomePage {
   }
 
   // Log out from current group
-  logout() {
-    this.loggedOut  = true;
+  exitGroup() {
+    this.loggedOut = true;
 
-    this.navCtrl.setRoot(GroupPage, {
-      screenName: this.screenName
-    });
+    this.navCtrl.pop();
+    // this.navCtrl.setRoot(GroupPage, {
+    //   screenName: this.screenName
+    // });
   }
 }
-
-// export const snapshotToArray = snapshot => {
-//   let returnArr = [];
-//
-//   snapshot.forEach(childSnapshot => {
-//     let item = childSnapshot.val();
-//     item.key = childSnapshot.key;
-//     returnArr.push(item);
-//   });
-//
-//   return returnArr;
-// };

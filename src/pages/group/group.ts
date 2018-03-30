@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { AddGroupPage } from "../add-group/add-group";
 import { HomePage } from "../home/home";
+import { LoginPage } from "../login/login";
 
 import * as firebase from 'firebase';
 
@@ -32,12 +33,15 @@ export class GroupPage {
 
   // Join group and navigate to home pg of group
   joinGroup(key) {
-    this.navCtrl.setRoot(HomePage, {
+    this.navCtrl.push(HomePage, {
       key: key,
       screenName: this.navParams.get('screenName')
     });
   }
 
+  logout() {
+    this.navCtrl.setRoot(LoginPage);
+  }
 }
 
 // Convert firebase response to array
@@ -48,7 +52,7 @@ export const snapshotToArray = snapshot => {
     let item = childSnapshot.val();
     item.key = childSnapshot.key;
     array.push(item)
-  })
+  });
 
   return array;
 }

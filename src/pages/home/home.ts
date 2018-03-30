@@ -70,11 +70,17 @@ export class HomePage {
 
   // Log out from current group
   exitGroup() {
+    let exitData = firebase.database().ref('chatrooms/'+this.groupKey+'/chats').push();
+
+    exitData.set({
+      type: 'exit',
+      user: this.screenName,
+      message: this.screenName+' has left the group.',
+      sendDate: Date()
+    });
+
     this.loggedOut = true;
 
     this.navCtrl.pop();
-    // this.navCtrl.setRoot(GroupPage, {
-    //   screenName: this.screenName
-    // });
   }
 }

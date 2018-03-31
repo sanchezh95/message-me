@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { GroupPage } from '../group/group';
 
 import * as firebase from 'firebase';
+
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -11,6 +12,7 @@ import * as firebase from 'firebase';
 })
 export class LoginPage {
 
+  ref = firebase.database().ref('users/');
   data = {
     email: "",
     password: "",
@@ -24,7 +26,12 @@ export class LoginPage {
   signup() {
     firebase.auth().createUserWithEmailAndPassword(this.data.email, this.data.password)
       .then(success => {
-        console.log('Signup successful: ', success);
+        console.log('Signup successful');
+        let newUser = this.ref.push();
+        newUser.set({
+          screenName: this.data.screenName,
+          email: this.data.email
+        });
         this.enterScreenName();
       })
 
@@ -38,14 +45,13 @@ export class LoginPage {
         }
         console.log(err)
       });
-    this.enterScreenName();
   }
 
   // Login existing user
   login() {
     firebase.auth().signInWithEmailAndPassword(this.data.email, this.data.password)
       .then(success => {
-        console.log('Login successful: ', success);
+        console.log('Login successful');
         this.enterScreenName();
       })
       .catch(function(err) {

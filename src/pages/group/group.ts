@@ -40,7 +40,11 @@ export class GroupPage {
   }
 
   logout() {
-    this.navCtrl.setRoot(LoginPage);
+    firebase.auth().signOut()
+      .then(success => {
+        console.log('Log out successful');
+        this.navCtrl.setRoot(LoginPage);
+      });
   }
 }
 

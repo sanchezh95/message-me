@@ -30,7 +30,8 @@ export class LoginPage {
         let newUser = this.ref.push();
         newUser.set({
           screenName: this.data.screenName,
-          email: this.data.email
+          email: this.data.email,
+          groups: []
         });
         this.enterScreenName();
       })

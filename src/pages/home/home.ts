@@ -31,7 +31,7 @@ export class HomePage {
     this.data.screenName = this.screenName;
 
     // Write to db
-    let joinData = firebase.database().ref('chatgroups/' + this.groupKey + '/chats').push();
+    let joinData = firebase.database().ref('messages/' + this.groupKey).push();
     joinData.set({
       type: 'join',
       user: this.screenName,
@@ -42,7 +42,7 @@ export class HomePage {
     this.data.message = '';
 
     // Read from db
-    firebase.database().ref('chatgroups/' + this.groupKey + '/chats').on('value', res => {
+    firebase.database().ref('messages/' + this.groupKey).on('value', res => {
       this.chats = [];
 
       this.chats = snapshotToArray(res);
@@ -56,7 +56,7 @@ export class HomePage {
 
   // Send message and save to db
   sendMessage() {
-    let msg = firebase.database().ref('chatgroups/' + this.groupKey+ '/chats').push();
+    let msg = firebase.database().ref('messages/' + this.groupKey).push();
 
     msg.set({
       type: this.data.type,
@@ -70,7 +70,7 @@ export class HomePage {
 
   // Log out from current group
   exitGroup() {
-    let exitData = firebase.database().ref('chatrooms/'+this.groupKey+'/chats').push();
+    let exitData = firebase.database().ref('messages/' + this.groupKey).push();
 
     exitData.set({
       type: 'exit',

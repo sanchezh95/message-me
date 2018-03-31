@@ -14,28 +14,55 @@ import * as firebase from 'firebase';
 })
 export class GroupPage {
 
+  userKey: string;
   groups = [];
-  ref = firebase.database().ref('chatgroups/');
+  users = [];
+  groupRef = firebase.database().ref('chatgroups/');
+  userRef = firebase.database().ref('users/');
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
 
+    /*** ONLY GET CURRENT USER AND THEIR GROUPS ***/
+
     // Listen to value changes in firebase db
-    this.ref.on('value', res => {
+    this.groupRef.on('value', res => {
       this.groups = [];
       this.groups = snapshotToArray(res);
-    })
+    });
+
+    this.userRef.on('value', res => {
+      this.users = [];
+      this.users = snapshotToArray(res);
+    });
+
+    this.userKey = this.navParams.get('screenName') as string;
   }
 
   // Navigate to add group page
   addGroup() {
     this.navCtrl.push(AddGroupPage);
+
+    // Add group to user
+    var update = {}
+
+    // update['/users/' + ]
+    firebase.database().ref().update(update);
   }
 
   // Join group and navigate to home pg of group
+  // Add member to group
   joinGroup(key) {
+    let memberRef = firebase.database().ref('members/' + key);
+    let newMember = memberRef.push();
+    let screenName = this.navParams.get('screenName');
+
+    newMember.set({
+      screenName: screenName
+    });
+
     this.navCtrl.push(HomePage, {
       key: key,
-      screenName: this.navParams.get('screenName')
+      screenName: screenName
     });
   }
 

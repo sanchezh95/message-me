@@ -5,8 +5,27 @@
   </ion-card>
 
   <!-- Form for screen name and password -->
-  <form (ngSubmit)="enterScreenName()">
+  <form>
     <ion-list>
+
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="email"
+                   [(ngModel)]="data.email"
+                   name="email"
+                   required="">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password"
+                   [(ngModel)]="data.password"
+                   name="password"
+                   required="">
+        </ion-input>
+      </ion-item>
+
       <ion-item>
         <ion-label floating>Screen Name</ion-label>
         <ion-input type="text"
@@ -18,16 +37,17 @@
         </ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-label floating>Password</ion-label>
-        <ion-input type="password"
-                   name="password"
-                   required="">
-        </ion-input>
+      <ion-item no-lines>
+        <button ion-button large full round
+                color="secondary"
+                type="submit"
+                (click)="login()">Log in</button>
       </ion-item>
 
-      <ion-item>
-        <button ion-button large full round color="secondary" type="submit">Log in</button>
+      <ion-item no-lines>
+        <button ion-button large full round
+                type="submit"
+                (click)="signup()">Sign up</button>
       </ion-item>
     </ion-list>
   </form>

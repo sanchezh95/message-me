@@ -14,18 +14,16 @@ import * as firebase from 'firebase';
 })
 export class GroupPage {
 
-  userKey: string;
+  user;
   firstSignIn: boolean;
-  email: string;
   groups = [];
-  users = [];
   groupRef = firebase.database().ref('chatgroups/');
   userRef = firebase.database().ref('users/');
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public alertCtrl: AlertController) {
 
-    this.email = this.navParams.get('email');
+    this.user = this.navParams.get('user');
     this.firstSignIn = this.navParams.get('firstSignIn');
 
     if (this.firstSignIn) {
@@ -40,12 +38,6 @@ export class GroupPage {
       this.groups = snapshotToArray(res);
     });
 
-    this.userRef.on('value', res => {
-      this.users = [];
-      this.users = snapshotToArray(res);
-    });
-
-    this.userKey = this.navParams.get('screenName') as string;
   }
 
   // Navigate to add group page
@@ -68,12 +60,12 @@ export class GroupPage {
     let newMember = memberRef.push();
 
     newMember.set({
-      screenName: this.userKey
+      screenName: this.user.displayName
     });
 
     this.navCtrl.push(HomePage, {
       key: key,
-      screenName: this.userKey
+      screenName: this.user.displayName
     });
   }
 
@@ -97,12 +89,16 @@ export class GroupPage {
         {
           text: 'Submit',
           handler: data => {
-            var user = this.userRef.child(this.email);
-            console.log(user);
-            // user.update({
-            //   'screenName': data.screenName
-            // });
-            this.userKey = data.screenName;
+            var user = firebase.auth().currentUser;
+
+            user.updateProfile({
+              displayName: data.screenName,
+              photoURL: ''
+            }).then(function () {
+              console.log("Updated display name");
+            }).catch (function (err) {
+              console.log(err);
+            })
           }
         }
       ]

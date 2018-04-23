@@ -19,9 +19,18 @@ export class AddGroupPage {
   // Save new group to db
   addGroup() {
     let newData = this.ref.push();
+    let groupKey = newData.key;
     newData.set({
-      groupName: this.data.groupName
+      groupName: this.data.groupName,
     });
+
+    // Add user to group
+    var update = {};
+    update['/chatgroups/' + groupKey + 'members/']
+
+    // update['/users/' + ]
+    firebase.database().ref().update(update);
+
     this.navCtrl.pop();
   }
 }

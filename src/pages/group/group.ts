@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, AlertController, NavController, NavParams } from 'ionic-angular';
 
 import { AddGroupPage } from "../add-group/add-group";
 import { HomePage } from "../home/home";
@@ -15,12 +15,22 @@ import * as firebase from 'firebase';
 export class GroupPage {
 
   userKey: string;
+  firstSignIn: boolean;
+  email: string;
   groups = [];
   users = [];
   groupRef = firebase.database().ref('chatgroups/');
   userRef = firebase.database().ref('users/');
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public alertCtrl: AlertController) {
+
+    this.email = this.navParams.get('email');
+    this.firstSignIn = this.navParams.get('firstSignIn');
+
+    if (this.firstSignIn) {
+      this.showAlert();
+    }
 
     /*** ONLY GET CURRENT USER AND THEIR GROUPS ***/
 
@@ -42,8 +52,10 @@ export class GroupPage {
   addGroup() {
     this.navCtrl.push(AddGroupPage);
 
-    // Add group to user
-    var update = {}
+    // var groupKey = this.groupRef.
+    // Add user to group
+    var update = {};
+    // update['/chatgroups/' + groupKey]
 
     // update['/users/' + ]
     firebase.database().ref().update(update);
@@ -54,15 +66,14 @@ export class GroupPage {
   joinGroup(key) {
     let memberRef = firebase.database().ref('members/' + key);
     let newMember = memberRef.push();
-    let screenName = this.navParams.get('screenName');
 
     newMember.set({
-      screenName: screenName
+      screenName: this.userKey
     });
 
     this.navCtrl.push(HomePage, {
       key: key,
-      screenName: screenName
+      screenName: this.userKey
     });
   }
 
@@ -72,6 +83,31 @@ export class GroupPage {
         console.log('Log out successful');
         this.navCtrl.setRoot(LoginPage);
       });
+  }
+
+  showAlert() {
+    let prompt = this.alertCtrl.create({
+      title: 'Enter Screen Name',
+      inputs: [
+        {
+          name: 'screenName'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Submit',
+          handler: data => {
+            var user = this.userRef.child(this.email);
+            console.log(user);
+            // user.update({
+            //   'screenName': data.screenName
+            // });
+            this.userKey = data.screenName;
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 }
 

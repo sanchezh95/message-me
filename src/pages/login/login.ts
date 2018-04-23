@@ -16,8 +16,12 @@ export class LoginPage {
   data = {
     email: "",
     password: "",
-    screenName: ""
+    screenName: "",
+    groups: []
   };
+
+  firstSignIn = false;
+  userKey = '';
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -33,6 +37,10 @@ export class LoginPage {
           email: this.data.email,
           groups: []
         });
+
+        this.firstSignIn = true;
+        this.userKey = newUser.key;
+
         this.enterScreenName();
       })
 
@@ -69,7 +77,8 @@ export class LoginPage {
 
   enterScreenName() {
     this.navCtrl.setRoot(GroupPage, {
-      screenName: this.data.screenName
+      email: this.data.email,
+      firstSignIn: this.firstSignIn
     });
   }
 

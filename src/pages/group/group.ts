@@ -30,8 +30,6 @@ export class GroupPage {
       this.showAlert();
     }
 
-    /*** ONLY GET CURRENT USER AND THEIR GROUPS ***/
-
     // Listen to value changes in firebase db
     this.groupRef.on('value', res => {
       this.groups = [];
@@ -109,12 +107,16 @@ export class GroupPage {
 
 // Convert firebase response to array
 export const snapshotToArray = snapshot => {
+  let userRef = firebase.database().ref('users/');
   let array = [];
 
   snapshot.forEach(childSnapshot => {
-    let item = childSnapshot.val();
-    item.key = childSnapshot.key;
-    array.push(item)
+    if (userRef.orderByChild('groups')
+      .equalTo(childSnapshot.val().groupName).once('value', function (snap) {
+        let item = childSnapshot.val();
+        item.key = childSnapshot.key;
+        array.push(item)
+    }));
   });
 
   return array;

@@ -40,15 +40,7 @@ export class GroupPage {
 
   // Navigate to add group page
   addGroup() {
-    this.navCtrl.push(AddGroupPage);
-
-    // var groupKey = this.groupRef.
-    // Add user to group
-    var update = {};
-    // update['/chatgroups/' + groupKey]
-
-    // update['/users/' + ]
-    firebase.database().ref().update(update);
+    this.navCtrl.push(AddGroupPage, {user: this.user});
   }
 
   // Join group and navigate to home pg of group
@@ -107,16 +99,14 @@ export class GroupPage {
 
 // Convert firebase response to array
 export const snapshotToArray = snapshot => {
-  let userRef = firebase.database().ref('users/');
   let array = [];
 
   snapshot.forEach(childSnapshot => {
-    if (userRef.orderByChild('groups')
-      .equalTo(childSnapshot.val().groupName).once('value', function (snap) {
-        let item = childSnapshot.val();
-        item.key = childSnapshot.key;
-        array.push(item)
-    }));
+    // if (childSnapshot.child('groups').getValue() === true) {
+      let item = childSnapshot.val();
+      item.key = childSnapshot.key;
+      array.push(item);
+    // }
   });
 
   return array;

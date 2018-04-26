@@ -80,7 +80,8 @@ export class LoginPage {
   enterScreenName() {
     this.navCtrl.setRoot(GroupPage, {
       user: this.user,
-      firstSignIn: this.firstSignIn
+      firstSignIn: this.firstSignIn,
+      email: this.data.email
     });
   }
 

@@ -15,6 +15,8 @@ import * as firebase from 'firebase';
 export class GroupPage {
 
   user;
+  email: string;
+  userKey;
   firstSignIn: boolean;
   groups = [];
   groupRef = firebase.database().ref('chatgroups/');
@@ -25,6 +27,7 @@ export class GroupPage {
 
     this.user = this.navParams.get('user');
     this.firstSignIn = this.navParams.get('firstSignIn');
+    this.email = this.navParams.get('email');
 
     if (this.firstSignIn) {
       this.showAlert();
@@ -79,6 +82,8 @@ export class GroupPage {
         {
           text: 'Submit',
           handler: data => {
+
+            // Update user profile
             var user = firebase.auth().currentUser;
 
             user.updateProfile({
@@ -89,6 +94,16 @@ export class GroupPage {
             }).catch (function (err) {
               console.log(err);
             })
+
+            // Update screen name field in db
+            this.userRef.orderByChild('email').equalTo(this.email)
+              .once('value').then(function (snap) {
+                this.userKey = Object.keys(snap.val())[0]
+            });
+
+            var update = {};
+            update[this.userKey + '/screenName'] = data.screenName;
+            this.userRef.update(update);
           }
         }
       ]

@@ -85,6 +85,7 @@ export class GroupPage {
 
             // Update user profile
             var user = firebase.auth().currentUser;
+            var update = {};
 
             user.updateProfile({
               displayName: data.screenName,
@@ -98,12 +99,11 @@ export class GroupPage {
             // Update screen name field in db
             this.userRef.orderByChild('email').equalTo(this.email)
               .once('value').then(function (snap) {
-                this.userKey = Object.keys(snap.val())[0]
+                console.log(Object.keys(snap.val())[0]);
+                this.userKey = Object.keys(snap.exportVal())[0];
+                update[this.userKey + '/screenName'] = data.screenName;
+                this.userRef.update(update);
             });
-
-            var update = {};
-            update[this.userKey + '/screenName'] = data.screenName;
-            this.userRef.update(update);
           }
         }
       ]

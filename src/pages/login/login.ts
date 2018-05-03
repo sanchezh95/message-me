@@ -16,8 +16,6 @@ export class LoginPage {
   data = {
     email: "",
     password: "",
-    screenName: "",
-    groups: []
   };
 
   firstSignIn = false;
@@ -32,11 +30,10 @@ export class LoginPage {
     firebase.auth().createUserWithEmailAndPassword(this.data.email, this.data.password)
       .then(success => {
         console.log('Signup successful');
+
         let newUser = this.ref.push();
         newUser.set({
-          screenName: this.data.screenName,
           email: this.data.email,
-          groups: []
         });
 
         this.firstSignIn = true;
@@ -63,11 +60,12 @@ export class LoginPage {
     firebase.auth().signInWithEmailAndPassword(this.data.email, this.data.password)
       .then(success => {
         console.log('Login successful');
+
         let key;
 
         this.ref.orderByChild('email').equalTo(this.data.email)
           .once('value').then(function (snap) {
-          // console.log(Object.keys(snap.val())[0]);
+
           key = Object.keys(snap.val())[0];
         });
 

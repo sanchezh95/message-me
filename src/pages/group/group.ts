@@ -99,7 +99,6 @@ export class GroupPage {
             })
 
             // Update screen name field in db
-            console.log('USER KEY UPDATING: ', this.userKey);
             update[this.userKey + '/screenName'] = data.screenName;
             this.userRef.update(update);
           }

@@ -16,7 +16,7 @@ export class GroupPage {
 
   user;
   email: string;
-  userKey;
+  userKey: string;
   firstSignIn: boolean;
   groups = [];
   groupRef = firebase.database().ref('chatgroups/');
@@ -26,6 +26,7 @@ export class GroupPage {
               public alertCtrl: AlertController) {
 
     this.user = this.navParams.get('user');
+    this.userKey = this.navParams.get('userKey');
     this.firstSignIn = this.navParams.get('firstSignIn');
     this.email = this.navParams.get('email');
 
@@ -70,6 +71,7 @@ export class GroupPage {
       });
   }
 
+  // Show alert that lets first-time user input screen name
   showAlert() {
     let prompt = this.alertCtrl.create({
       title: 'Enter Screen Name',
@@ -97,13 +99,9 @@ export class GroupPage {
             })
 
             // Update screen name field in db
-            this.userRef.orderByChild('email').equalTo(this.email)
-              .once('value').then(function (snap) {
-                console.log(Object.keys(snap.val())[0]);
-                this.userKey = Object.keys(snap.exportVal())[0];
-                update[this.userKey + '/screenName'] = data.screenName;
-                this.userRef.update(update);
-            });
+            console.log('USER KEY UPDATING: ', this.userKey);
+            update[this.userKey + '/screenName'] = data.screenName;
+            this.userRef.update(update);
           }
         }
       ]

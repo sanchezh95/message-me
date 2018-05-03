@@ -22,6 +22,7 @@ export class LoginPage {
 
   firstSignIn = false;
   user;
+  userKey;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -40,6 +41,7 @@ export class LoginPage {
 
         this.firstSignIn = true;
         this.user = firebase.auth().currentUser;
+        this.userKey = newUser.key;
 
         this.enterScreenName();
       })
@@ -61,7 +63,17 @@ export class LoginPage {
     firebase.auth().signInWithEmailAndPassword(this.data.email, this.data.password)
       .then(success => {
         console.log('Login successful');
+        let key;
+
+        this.ref.orderByChild('email').equalTo(this.data.email)
+          .once('value').then(function (snap) {
+          // console.log(Object.keys(snap.val())[0]);
+          key = Object.keys(snap.val())[0];
+        });
+
         this.user = firebase.auth().currentUser;
+        this.userKey = key;
+        console.log("LOGIN USER KEY: ", this.userKey);
 
         this.enterScreenName();
       })
@@ -80,6 +92,7 @@ export class LoginPage {
   enterScreenName() {
     this.navCtrl.setRoot(GroupPage, {
       user: this.user,
+      userKey: this.userKey,
       firstSignIn: this.firstSignIn,
       email: this.data.email
     });

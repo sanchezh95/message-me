@@ -27,6 +27,7 @@ export class GroupPage {
 
     this.user = this.navParams.get('user');
     this.userKey = this.navParams.get('userKey');
+    console.log(this.userKey);
     this.firstSignIn = this.navParams.get('firstSignIn');
     this.email = this.navParams.get('email');
 
@@ -114,11 +115,9 @@ export const snapshotToArray = snapshot => {
   let array = [];
 
   snapshot.forEach(childSnapshot => {
-    // if (childSnapshot.child('groups').getValue() === true) {
-      let item = childSnapshot.val();
-      item.key = childSnapshot.key;
-      array.push(item);
-    // }
+    let item = childSnapshot.val();
+    item.key = childSnapshot.key;
+    array.push(item);
   });
 
   return array;

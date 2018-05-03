@@ -34,6 +34,7 @@ export class LoginPage {
         let newUser = this.ref.push();
         newUser.set({
           email: this.data.email,
+          key: newUser.key
         });
 
         this.firstSignIn = true;
@@ -60,19 +61,19 @@ export class LoginPage {
     firebase.auth().signInWithEmailAndPassword(this.data.email, this.data.password)
       .then(success => {
         console.log('Login successful');
-
-        let key;
-
         this.ref.orderByChild('email').equalTo(this.data.email)
-          .once('value').then(function (snap) {
-
-          key = Object.keys(snap.val())[0];
+          .once('value')
+          .then(function (snap) {
+            console.log(snap.key);
+            let that = this;
+            snap.forEach(i => {
+              that.userKey = i.val().key;
+            });
         });
 
         this.user = firebase.auth().currentUser;
-        this.userKey = key;
-        console.log("LOGIN USER KEY: ", this.userKey);
 
+        console.log(this.userKey);
         this.enterScreenName();
       })
       .catch(function(err) {
@@ -97,3 +98,4 @@ export class LoginPage {
   }
 
 }
+

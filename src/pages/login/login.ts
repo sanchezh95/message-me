@@ -21,8 +21,15 @@ export class LoginPage {
   firstSignIn = false;
   user;
   userKey;
+  allUsers = [];
+  currUser;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+
+    // Get all users
+    this.ref.on('value', res => {
+      this.allUsers = getUserKey(res);
+    });
   }
 
   // Creates new user
@@ -41,7 +48,7 @@ export class LoginPage {
         this.user = firebase.auth().currentUser;
         this.userKey = newUser.key;
 
-        this.enterScreenName();
+        this.enterScreenName(true);
       })
 
       .catch(function(err) {
@@ -61,20 +68,10 @@ export class LoginPage {
     firebase.auth().signInWithEmailAndPassword(this.data.email, this.data.password)
       .then(success => {
         console.log('Login successful');
-        this.ref.orderByChild('email').equalTo(this.data.email)
-          .once('value')
-          .then(function (snap) {
-            console.log(snap.key);
-            let that = this;
-            snap.forEach(i => {
-              that.userKey = i.val().key;
-            });
-        });
 
         this.user = firebase.auth().currentUser;
 
-        console.log(this.userKey);
-        this.enterScreenName();
+        this.enterScreenName(false);
       })
       .catch(function(err) {
         var errCode = err.code;
@@ -88,7 +85,19 @@ export class LoginPage {
       });
   }
 
-  enterScreenName() {
+  // Go to group page
+  enterScreenName(newUser) {
+
+    // Get user key for existing user
+    if (newUser === false) {
+      let email = this.data.email;
+      this.currUser = this.allUsers.filter(function (u) {
+        return (u.email === email);
+      });
+
+      this.userKey = this.currUser[0].key;
+    }
+
     this.navCtrl.setRoot(GroupPage, {
       user: this.user,
       userKey: this.userKey,
@@ -96,6 +105,17 @@ export class LoginPage {
       email: this.data.email
     });
   }
-
 }
 
+// Get user key for returning user
+export const getUserKey = snap => {
+  let users = [];
+
+  snap.forEach(childSnap => {
+    let item = childSnap.val();
+    item.key = childSnap.key;
+    users.push(item);
+  });
+
+  return users;
+}

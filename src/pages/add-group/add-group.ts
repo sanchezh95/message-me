@@ -16,7 +16,6 @@ export class AddGroupPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.userKey = this.navParams.get('user');
-    console.log('add group constructor',this.userKey);
   }
 
   // Save new group to db
@@ -27,13 +26,13 @@ export class AddGroupPage {
     });
 
     let groupKey = newData.key;
-    let memberRef = firebase.database().ref('chatgroups/' + groupKey + '/members');
+    let memberRef = firebase.database().ref('chatgroups/' + groupKey);
     let userRef = firebase.database().ref('users/' + this.userKey + '/groups');
 
     // Add member to chat group
-    let newMember = memberRef.push();
-    newMember.set({
-      memberKey: this.userKey
+    let newMember = memberRef.child('members');
+    newMember.child(this.userKey).set({
+      member: true
     });
 
 

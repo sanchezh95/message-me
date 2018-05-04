@@ -27,10 +27,10 @@ export class GroupPage {
 
     this.user = this.navParams.get('user');
     this.userKey = this.navParams.get('userKey');
-    console.log('===============', this.userKey);
     this.firstSignIn = this.navParams.get('firstSignIn');
     this.email = this.navParams.get('email');
 
+    // Let new user enter screen name
     if (this.firstSignIn) {
       this.showAlert();
     }
@@ -39,26 +39,18 @@ export class GroupPage {
     this.groupRef.on('value', res => {
       this.groups = [];
       this.groups = snapshotToArray(res);
+      // console.log(this.groups);
     });
 
   }
 
   // Navigate to add group page
   addGroup() {
-    console.log('add group: ',  this.userKey);
     this.navCtrl.push(AddGroupPage, {user: this.userKey});
   }
 
-  // Join group and navigate to home pg of group
-  // Add member to group
+  // Navigate to home page of group
   joinGroup(key) {
-    let memberRef = firebase.database().ref('members/' + key);
-    let newMember = memberRef.push();
-
-    newMember.set({
-      screenName: this.user.displayName
-    });
-
     this.navCtrl.push(HomePage, {
       key: key,
       screenName: this.user.displayName
@@ -118,6 +110,11 @@ export const snapshotToArray = snapshot => {
   snapshot.forEach(childSnapshot => {
     let item = childSnapshot.val();
     item.key = childSnapshot.key;
+
+    if (item.members)
+    console.log(item.members.key);
+
+    // if (item.members)
     array.push(item);
   });
 

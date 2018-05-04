@@ -27,7 +27,7 @@ export class GroupPage {
 
     this.user = this.navParams.get('user');
     this.userKey = this.navParams.get('userKey');
-    console.log(this.userKey);
+    console.log('===============', this.userKey);
     this.firstSignIn = this.navParams.get('firstSignIn');
     this.email = this.navParams.get('email');
 
@@ -45,7 +45,8 @@ export class GroupPage {
 
   // Navigate to add group page
   addGroup() {
-    this.navCtrl.push(AddGroupPage, {user: this.user});
+    console.log('add group: ',  this.userKey);
+    this.navCtrl.push(AddGroupPage, {user: this.userKey});
   }
 
   // Join group and navigate to home pg of group

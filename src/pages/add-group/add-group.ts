@@ -12,31 +12,36 @@ export class AddGroupPage {
 
   data = { groupName: '' };
   ref = firebase.database().ref('chatgroups/');
-  userRef = firebase.database().ref('users/');
-  user;
   userKey;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.user = this.navParams.get('user');
-
-    this.userRef.orderByChild('screenName').equalTo(this.user.displayName)
-      .once('value').then(function (snap) {
-      console.log(snap.val());
-      // this.userKey = snap.key;
-    });
+    this.userKey = this.navParams.get('user');
+    console.log('add group constructor',this.userKey);
   }
 
   // Save new group to db
   addGroup() {
     let newData = this.ref.push();
     newData.set({
-      groupName: this.data.groupName,
+      groupName: this.data.groupName
     });
 
-    // Add user to group
-    var update = {};
-    update[this.userKey + '/groups/' + this.data.groupName] = true;
-    this.userRef.update(update);
+    let groupKey = newData.key;
+    let memberRef = firebase.database().ref('chatgroups/' + groupKey + '/members');
+    let userRef = firebase.database().ref('users/' + this.userKey + '/groups');
+
+    // Add member to chat group
+    let newMember = memberRef.push();
+    newMember.set({
+      memberKey: this.userKey
+    });
+
+
+    // Add group to user
+    let userGroup = userRef.push();
+    userGroup.set({
+      groupName: this.data.groupName
+    });
 
     this.navCtrl.pop();
   }

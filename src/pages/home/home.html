@@ -29,7 +29,7 @@
         <!-- Display self messages -->
         <div class="chat-message" text-right *ngIf="chat.user===screenName">
           <div class="right-bubble">
-            <span class="msg-name">Me</span>
+            <span class="msg-name"></span>
             <span class="msg-date">{{chat.sendDate | date:'short'}}</span>
             <p text-wrap>{{chat.message}}</p>
           </div>

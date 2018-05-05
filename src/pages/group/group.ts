@@ -39,7 +39,6 @@ export class GroupPage {
     this.groupRef.on('value', res => {
       this.groups = [];
       this.groups = snapshotToArray(res);
-      // console.log(this.groups);
     });
 
   }
@@ -111,10 +110,6 @@ export const snapshotToArray = snapshot => {
     let item = childSnapshot.val();
     item.key = childSnapshot.key;
 
-    if (item.members)
-    console.log(item.members.key);
-
-    // if (item.members)
     array.push(item);
   });
 

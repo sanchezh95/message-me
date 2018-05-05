@@ -46,11 +46,11 @@ export class HomePage {
       this.chats = [];
 
       this.chats = snapshotToArray(res);
-      setTimeout(() => {
-        if (this.loggedOut === false) {
-          this.content.scrollToBottom(300);
-        }
-      }, 1000);
+      // setTimeout(() => {
+      //   if (this.loggedOut === false) {
+      //     this.content.scrollToBottom(300);
+      //   }
+      // }, 1000);
     });
   }
 

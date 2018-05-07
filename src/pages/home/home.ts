@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Content } from 'ionic-angular';
 
-import {GroupPage, snapshotToArray} from "../group/group";
+import {snapshotToArray} from "../group/group";
 
 import * as firebase from 'firebase';
 
@@ -21,11 +21,13 @@ export class HomePage {
 
   chats = [];
   groupKey: string;
+  groupName: string;
   screenName: string;
   loggedOut: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.groupKey = this.navParams.get('key') as string;
+    this.groupName = this.navParams.get('name');
     this.screenName = this.navParams.get('screenName') as string;
     this.data.type = 'message';
     this.data.screenName = this.screenName;

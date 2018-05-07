@@ -1,15 +1,17 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>MessageMe Groups</ion-title>
-  </ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
 
+    <ion-title text-center>MessageMe Groups</ion-title>
+  </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let group of groups" (click)="joinGroup(group.key)">
+    <ion-item *ngFor="let group of groups" (click)="joinGroup(group)">
       {{group.groupName}}
       <ion-icon name="chatboxes" item-end></ion-icon>
     </ion-item>

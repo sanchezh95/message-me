@@ -49,9 +49,10 @@ export class GroupPage {
   }
 
   // Navigate to home page of group
-  joinGroup(key) {
+  joinGroup(group) {
     this.navCtrl.push(HomePage, {
-      key: key,
+      key: group.key,
+      name: group.groupName,
       screenName: this.user.displayName
     });
   }

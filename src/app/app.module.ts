@@ -9,6 +9,9 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage} from "../pages/login/login";
 import { GroupPage } from "../pages/group/group";
 import { AddGroupPage } from "../pages/add-group/add-group";
+import { NotificationsPage } from "../pages/notifications/notifications";
+import { ScreenNamePage } from "../pages/screen-name/screen-name";
+import { DeleteAccountPage } from "../pages/delete-account/delete-account";
 
 @NgModule({
   declarations: [
@@ -16,7 +19,10 @@ import { AddGroupPage } from "../pages/add-group/add-group";
     HomePage,
     LoginPage,
     GroupPage,
-    AddGroupPage
+    AddGroupPage,
+    NotificationsPage,
+    ScreenNamePage,
+    DeleteAccountPage
   ],
   imports: [
     BrowserModule,
@@ -28,7 +34,10 @@ import { AddGroupPage } from "../pages/add-group/add-group";
     HomePage,
     LoginPage,
     GroupPage,
-    AddGroupPage
+    AddGroupPage,
+    NotificationsPage,
+    ScreenNamePage,
+    DeleteAccountPage
   ],
   providers: [
     StatusBar,

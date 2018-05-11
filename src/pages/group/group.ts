@@ -3,7 +3,6 @@ import { IonicPage, AlertController, NavController, NavParams } from 'ionic-angu
 
 import { AddGroupPage } from "../add-group/add-group";
 import { HomePage } from "../home/home";
-import { LoginPage } from "../login/login";
 
 import * as firebase from 'firebase';
 
@@ -55,14 +54,6 @@ export class GroupPage {
       name: group.groupName,
       screenName: this.user.displayName
     });
-  }
-
-  logout() {
-    firebase.auth().signOut()
-      .then(success => {
-        console.log('Log out successful');
-        this.navCtrl.setRoot(LoginPage);
-      });
   }
 
   // Show alert that lets first-time user input screen name

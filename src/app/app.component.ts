@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, NavController, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -48,5 +48,14 @@ export class MyApp {
   openPage(page) {
     this.nav.push(page.component);
   }
+
+  logout() {
+    firebase.auth().signOut()
+      .then(success => {
+        console.log('Log out successful');
+        this.nav.setRoot(LoginPage);
+      });
+  }
+
 }
 

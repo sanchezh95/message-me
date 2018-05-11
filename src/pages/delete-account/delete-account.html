@@ -9,10 +9,19 @@
 
 <ion-content padding>
   <h3>
-    Are you sure you want to delete you account?
+    Enter your password to delete your account.
   </h3>
 
+  <p>
+    This can not be undone.
+  </p>
+
+  <ion-item>
+    <ion-label floating>Password</ion-label>
+    <ion-input type="password" [(ngModel)]="password"></ion-input>
+  </ion-item>
+
   <div text-center>
-    <button ion-button large color="danger">Yes</button>
+    <button ion-button large color="danger" (click)="deleteAccount()">Yes</button>
   </div>
 </ion-content>

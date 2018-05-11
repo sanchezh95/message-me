@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the DeleteAccountPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { LoginPage } from "../login/login";
+
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -14,12 +11,34 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'delete-account.html',
 })
 export class DeleteAccountPage {
+  password = '';
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad DeleteAccountPage');
-  }
+  // Re-authenticate and then delete user
+  deleteAccount() {
+    var that = this;
+    var user = firebase.auth().currentUser;
+    var credential = firebase.auth.EmailAuthProvider.credential(
+      user.email,
+      this.password
+    );
 
+    user.reauthenticateAndRetrieveDataWithCredential(credential)
+      .then(function () {
+        console.log("User re-authenticated");
+
+        user.delete().then(function () {
+          console.log("User deleted");
+          that.navCtrl.setRoot(LoginPage);
+
+        }).catch(function (err) {
+          console.error(err);
+        });
+
+      }).catch(function (err) {
+        console.error(err);
+    });
+  }
 }

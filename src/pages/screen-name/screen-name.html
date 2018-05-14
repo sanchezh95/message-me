@@ -10,10 +10,10 @@
 <ion-content padding>
   <ion-item>
     <ion-label floating>New Screen Name</ion-label>
-    <ion-input type="text" value=""></ion-input>
+    <ion-input type="text" [(ngModel)]="newScreenName"></ion-input>
   </ion-item>
 
   <ion-item no-lines text-center>
-    <button ion-button large>Change</button>
+    <button ion-button large (click)="changeScreenName()">Change</button>
   </ion-item>
 </ion-content>

@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { GroupPage } from '../group/group';
+import { UserDataProvider } from "../../providers/user-data/user-data";
 
 import * as firebase from 'firebase';
+import {User} from "firebase";
 
 @IonicPage()
 @Component({
@@ -24,7 +26,8 @@ export class LoginPage {
   allUsers = [];
   currUser;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public userData: UserDataProvider) {
 
     // Get all users
     this.ref.on('value', res => {
@@ -98,9 +101,10 @@ export class LoginPage {
       this.userKey = this.currUser[0].key;
     }
 
+    this.userData.setUserKey(this.userKey);
+
     this.navCtrl.setRoot(GroupPage, {
       user: this.user,
-      userKey: this.userKey,
       firstSignIn: this.firstSignIn,
       email: this.data.email
     });

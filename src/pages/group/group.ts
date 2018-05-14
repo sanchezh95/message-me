@@ -3,6 +3,7 @@ import { IonicPage, AlertController, NavController, NavParams } from 'ionic-angu
 
 import { AddGroupPage } from "../add-group/add-group";
 import { HomePage } from "../home/home";
+import { UserDataProvider } from "../../providers/user-data/user-data";
 
 import * as firebase from 'firebase';
 
@@ -22,12 +23,12 @@ export class GroupPage {
   userRef = firebase.database().ref('users/');
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public alertCtrl: AlertController) {
+              public alertCtrl: AlertController, public userData: UserDataProvider) {
 
     this.user = this.navParams.get('user');
-    this.userKey = this.navParams.get('userKey');
     this.firstSignIn = this.navParams.get('firstSignIn');
     this.email = this.navParams.get('email');
+    this.userKey = userData.getUserKey();
 
     // Let new user enter screen name
     if (this.firstSignIn) {
@@ -78,10 +79,10 @@ export class GroupPage {
               displayName: data.screenName,
               photoURL: ''
             }).then(function () {
-              console.log("Updated display name");
+              console.log('Updated display name');
             }).catch (function (err) {
-              console.log(err);
-            })
+              console.error(err);
+            });
 
             // Update screen name field in db
             update[this.userKey + '/screenName'] = data.screenName;

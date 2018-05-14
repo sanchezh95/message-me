@@ -12,6 +12,7 @@ import { AddGroupPage } from "../pages/add-group/add-group";
 import { NotificationsPage } from "../pages/notifications/notifications";
 import { ScreenNamePage } from "../pages/screen-name/screen-name";
 import { DeleteAccountPage } from "../pages/delete-account/delete-account";
+import { UserDataProvider } from '../providers/user-data/user-data';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { DeleteAccountPage } from "../pages/delete-account/delete-account";
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    UserDataProvider
   ]
 })
 export class AppModule {}

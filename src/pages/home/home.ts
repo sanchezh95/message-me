@@ -49,7 +49,7 @@ export class HomePage {
 
       this.chats = snapshotToArray(res);
       setTimeout(() => {
-        if (this.loggedOut === false) {
+        if (this.loggedOut === false || this.content) {
           this.content.scrollToBottom(300);
         }
       }, 1000);
